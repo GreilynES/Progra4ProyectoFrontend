@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import { useLoginMutation } from '../services/Candidate/CandidateHook';
-
+import { router } from '../router/router';
 
 const Login = () => {
   const loginMutation = useLoginMutation();
@@ -12,8 +12,14 @@ const Login = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        await loginMutation.mutateAsync(value);
+        const response = await loginMutation.mutateAsync(value);
+
+        // Guardar token y candidato en localStorage
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('candidate', JSON.stringify(response.candidate));
+
         alert('Login exitoso');
+        router.navigate({ to: '/profile' });
       } catch (error) {
         alert('Login fallido');
       }
@@ -36,6 +42,7 @@ const Login = () => {
             <input
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
             />
           </>
         )}
@@ -49,14 +56,13 @@ const Login = () => {
               type="password"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
             />
           </>
         )}
       </form.Field>
 
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-      >
+      <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
         {([canSubmit, isSubmitting]) => (
           <button type="submit" disabled={!canSubmit}>
             {isSubmitting ? 'Entrando...' : 'Entrar'}

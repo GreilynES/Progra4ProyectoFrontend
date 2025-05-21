@@ -1,72 +1,59 @@
 import { useEffect, useState } from "react";
-
 import { getAllCandidates, createCandidate, deleteCandidate, login } from "./CandidateService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Candidate } from "../../models/Candidates/Candidate";
 
-// Hook clásico con useEffect
+// Hook clásico
 export const useGetCandidates = () => {
-    const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
 
-    useEffect(() => {
-        (async () => {
-            const data = await getAllCandidates();
-            setCandidates(data);
-        })();
-    }, []);
+  useEffect(() => {
+    (async () => {
+      const data = await getAllCandidates();
+      setCandidates(data);
+    })();
+  }, []);
 
-    return { candidates };
+  return { candidates };
 };
 
 // Hook con React Query
 export const useGetCandidates_ReactQuery = () => {
-    const { data: candidates, isPending, error } = useQuery({
-        queryKey: ['candidates'],
-        queryFn: getAllCandidates
-    });
+  const { data: candidates, isPending, error } = useQuery({
+    queryKey: ['candidates'],
+    queryFn: getAllCandidates,
+  });
 
-    return { candidates, isPending, error };
+  return { candidates, isPending, error };
 };
 
-// Hook para crear candidato
 export const useCreateCandidateMutation = () => {
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: createCandidate,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['candidates'] });
-        }
-    });
-
-    return mutation;
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createCandidate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    },
+  });
 };
 
-// Hook para eliminar candidato
+
+// Eliminar candidato
 export const useDeleteCandidateMutation = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    const mutation = useMutation({
-        mutationFn: deleteCandidate,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['candidates'] });
-        }
-    });
-
-    return mutation;
+  return useMutation({
+    mutationFn: deleteCandidate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    },
+  });
 };
 
-
+// ✅ Login funcional y guarda token + usuario
 export const useLoginMutation = () => {
+  return useMutation({
+    mutationFn: login,
+  });
+};
 
-    const mutation = useMutation({
-        mutationFn: login,
-        onSuccess: (res) => {
-          // Invalidate and refetch
-         localStorage.setItem('token', res);
-         
-        },
-      })
-
-      return mutation;
-}
