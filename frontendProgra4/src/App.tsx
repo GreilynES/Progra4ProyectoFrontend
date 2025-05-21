@@ -1,16 +1,13 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './App.css'
-import CreateCandidateForm from './pages/candidates/CreateCandidateForm';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from '@tanstack/react-router'
+import { router } from './router/router';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
-function App() {
-  
+export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      < CreateCandidateForm/>
+      <RouterProvider router={router} />
     </QueryClientProvider>
   )
 }
-
-export default App

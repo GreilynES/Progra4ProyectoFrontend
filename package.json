@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tanstack/react-form": "^1.11.2",
+    "zod": "^3.25.12"
+  }
+}

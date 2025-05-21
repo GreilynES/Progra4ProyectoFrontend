@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getAllCandidates, createCandidate, deleteCandidate } from "./CandidateService";
+import { getAllCandidates, createCandidate, deleteCandidate, login } from "./CandidateService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Candidate } from "../../models/Candidates/Candidate";
 
@@ -53,5 +53,20 @@ export const useDeleteCandidateMutation = () => {
         }
     });
 
-    return mutation;
+    return mutation;
 };
+
+
+export const useLoginMutation = () => {
+
+    const mutation = useMutation({
+        mutationFn: login,
+        onSuccess: (res) => {
+          // Invalidate and refetch
+         localStorage.setItem('token', res);
+         
+        },
+      })
+
+      return mutation;
+}
