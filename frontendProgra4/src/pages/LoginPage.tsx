@@ -16,7 +16,6 @@ const Login = () => {
         await loginMutation.mutateAsync(value);
         alert('Login exitoso');
         router.navigate({ to: '/profile' }); // redirige después del login
-        router.navigate({ to: "/offers" });
       } catch (error) {
         alert('Login fallido');
       }

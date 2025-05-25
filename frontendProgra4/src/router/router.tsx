@@ -10,8 +10,8 @@ import {
 import Login from "../pages/LoginPage";
 import RegisterPage from "../pages/candidates/RegisterPage";
 import OffersPage from "../pages/OffersPage";
-import { useEffect, useState } from "react";
 import ProfilePage from "../pages/ProfilePage";
+import { useEffect, useState } from "react";
 
 // Función para proteger rutas privadas
 const requireAuth = () => {
