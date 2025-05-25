@@ -1,8 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { useLoginMutation } from '../services/Candidate/CandidateHook';
-import { router } from '../router/router';
+import { Link, useRouter } from '@tanstack/react-router';
 
 const Login = () => {
+  const router = useRouter()
   const loginMutation = useLoginMutation();
 
   const form = useForm({
@@ -12,14 +13,10 @@ const Login = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await loginMutation.mutateAsync(value);
-
-        // Guardar token y candidato en localStorage
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('candidate', JSON.stringify(response.candidate));
-
+        await loginMutation.mutateAsync(value);
         alert('Login exitoso');
-        router.navigate({ to: '/profile' });
+        router.navigate({ to: '/profile' }); // redirige después del login
+        router.navigate({ to: "/offers" });
       } catch (error) {
         alert('Login fallido');
       }
@@ -69,6 +66,9 @@ const Login = () => {
           </button>
         )}
       </form.Subscribe>
+      <Link to="/register">
+        ¿No tienes cuenta? Regístrate aquí
+      </Link>
     </form>
   );
 };

@@ -27,16 +27,43 @@ export const useGetCandidates_ReactQuery = () => {
   return { candidates, isPending, error };
 };
 
+export const useLoggedCandidate = () => {
+  const [candidate, setCandidate] = useState<Candidate | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const data = localStorage.getItem("candidate")
+    if (data) {
+      try {
+        const parsed: Candidate = JSON.parse(data)
+        setCandidate(parsed)
+      } catch (err) {
+        console.error("❌ Error al leer los datos del candidato")
+      }
+    }
+    setIsLoading(false) // ✅ Importante: marcar como terminado
+  }, [])
+
+  return { candidate, isLoading }
+}
+
 export const useCreateCandidateMutation = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: createCandidate,
+    mutationFn: async (candidate: Candidate) => {
+      const created = await createCandidate(candidate);
+      console.log("✅ Candidato creado:", created);
+      return created;
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+    },
+    onError: (err) => {
+      console.error("❌ Error al crear candidato", err);
     },
   });
 };
-
 
 // Eliminar candidato
 export const useDeleteCandidateMutation = () => {

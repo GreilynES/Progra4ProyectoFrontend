@@ -1,10 +1,11 @@
 export interface Candidate {
     id: number,
-    Name: string,
-    FirstLastName: string,
-    SecondLastName: string,
-    Email: string,
-    Password: string
+    name: string,
+    firstLastName: string,
+    secondLastName: string,
+    email: string,
+    password: string
+    role: string;
 }
 
 export const CandidateInitialState = {
@@ -13,5 +14,6 @@ export const CandidateInitialState = {
     FirstLastName: '',
     SecondLastName: '',
     Email: '',
-    Password: ''
+    Password: '',
+    role: ''
 }

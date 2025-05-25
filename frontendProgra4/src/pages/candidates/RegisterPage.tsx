@@ -1,34 +1,38 @@
-// import React from 'react'
-import { useForm } from '@tanstack/react-form'
-// import { CandidateInitialState } from '../../models/Candidate'
-// import { createCandidate } from '../../services/candidateService'
-
-import { CandidateInitialState } from "../../models/Candidates/Candidate"
-import { createCandidate } from "../../services/Candidate/CandidateService"
+import { useForm } from '@tanstack/react-form';
+import { CandidateInitialState } from '../../models/Candidates/Candidate';
+import { useCreateCandidateMutation } from '../../services/Candidate/CandidateHook';
+import { Link, useRouter } from '@tanstack/react-router';
 
 const RegisterPage = () => {
+  const router = useRouter()
+  const createCandidateMutation = useCreateCandidateMutation();
+
   const form = useForm({
     defaultValues: CandidateInitialState,
     onSubmit: async ({ value }) => {
-      try {
-        const created = await createCandidate(value)
-        console.log('✅ Candidato creado:', created)
-        form.reset() // Limpia el formulario si querés
-      } catch (err) {
-        console.error('❌ Error al crear candidato', err)
-      }
+      const mappedValue = {
+        id: value.id,
+        name: value.Name,
+        firstLastName: value.FirstLastName,
+        secondLastName: value.SecondLastName,
+        email: value.Email,
+        password: value.Password,
+        role: value.role,
+      };
+      await createCandidateMutation.mutateAsync(mappedValue);
+      router.navigate({ to: "/login" })
+      form.reset();
     },
-  })
+  });
 
   return (
     <div>
-      <link></link>
       <h1>Registrar Candidato</h1>
       <form
         onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          form.handleSubmit()
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
         }}
       >
         {['Name', 'FirstLastName', 'SecondLastName', 'Email', 'Password'].map((fieldName) => (
@@ -58,11 +62,14 @@ const RegisterPage = () => {
             <button type="submit" disabled={!canSubmit}>
               {isSubmitting ? 'Creando...' : 'Registrar'}
             </button>
-          )}
-        />
+          )}
+        />
+        <Link to="/login" > 
+          Ya tienes una cuenta? Inicia sesión
+        </Link>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

@@ -4,58 +4,106 @@ import {
   createRouter,
   Outlet,
   Link,
-} from '@tanstack/react-router';
-import Login from '../pages/LoginPage';
-import RegisterPage from '../pages/candidates/RegisterPage';
-import OffersPage from '../pages/OffersPage';
-import ProfilePage from '../pages/ProfilePage';
+  redirect,
+  useRouterState,
+} from "@tanstack/react-router";
+import Login from "../pages/LoginPage";
+import RegisterPage from "../pages/candidates/RegisterPage";
+import OffersPage from "../pages/OffersPage";
+import { useEffect, useState } from "react";
+import ProfilePage from "../pages/ProfilePage";
 
+// Función para proteger rutas privadas
+const requireAuth = () => {
+  const token = localStorage.getItem("token");
+  if (!token || token === "undefined" || token === "null") {
+    throw redirect({ to: "/login" });
+  }
+};
+
+// Root con navbar condicional
 const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <div className="p-2 flex gap-2 menu">
-        <Link to="/login" className="[&.active]:font-bold">Login</Link>
-        <Link to="/register" className="[&.active]:font-bold">Register</Link>
-        <Link to="/offers" className="[&.active]:font-bold">Offers</Link>
-        <Link to="/profile" className="[&.active]:font-bold">Profile</Link>
-      </div>
-      <hr />
-      <Outlet />
-    </>
-  ),
+  component: () => {
+    const [showNavbar, setShowNavbar] = useState(false);
+    const { pathname } = useRouterState({ select: (s) => s.location });
+
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      const isAuthPage = ["/login", "/register"].includes(pathname);
+      setShowNavbar(!!token && !isAuthPage);
+    }, [pathname]); // Se actualiza cuando cambia la ruta
+
+        if (showNavbar) {
+    return (
+      <>
+        <nav>
+          <Link to="/offers">Offers</Link>
+          <Link to="/profile">Profile</Link>
+          <button
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/login";
+            }}
+          >
+            Cerrar Sesión
+          </button>
+        </nav>
+        <Outlet />
+      </>
+    );
+  }
+    return (
+      <>
+        <Outlet />
+      </>
+    );
+  },
+});
+
+// Rutas
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  beforeLoad: () => {
+    throw redirect({ to: "/register" });
+  },
 });
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/login',
-  component: () => <Login />,
+  path: "/login",
+  component: Login,
 });
 
 const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/register',
-  component: () => <RegisterPage />,
+  path: "/register",
+  component: RegisterPage,
 });
 
-const offerRoute = createRoute({
+const offersRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/offers',
-  component: () => <OffersPage />,
+  path: "/offers",
+  beforeLoad: requireAuth,
+  component: OffersPage,
 });
 
 const profileRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/profile',
-  component: () => <ProfilePage />,
+  path: "/profile",
+  beforeLoad: requireAuth,
+  component: ProfilePage,
 });
 
-const routeTree = rootRoute.addChildren([
+// Crear el router
+export const routeTree = rootRoute.addChildren([
+  indexRoute,
   loginRoute,
   registerRoute,
-  offerRoute,
+  offersRoute,
   profileRoute,
 ]);
 
 export const router = createRouter({
-  routeTree,
+  routeTree
 });

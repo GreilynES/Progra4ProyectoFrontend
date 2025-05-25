@@ -1,44 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import { useLoggedCandidate } from "../services/Candidate/CandidateHook"
 
-type Candidate = {
-  id: number;
-  name: string;
-  firstLastName: string;
-  secondLastName: string;
-  email: string;
-  role: string;
-};
 
 const ProfilePage = () => {
-  const [candidate, setCandidate] = useState<Candidate | null>(null);
+  const { candidate, isLoading } = useLoggedCandidate()
 
-  useEffect(() => {
-    const data = localStorage.getItem('candidate');
-    if (data) {
-      try {
-        const parsed: Candidate = JSON.parse(data);
-        setCandidate(parsed);
-      } catch (err) {
-        console.error('❌ Error al leer los datos del candidato');
-      }
-    }
-  }, []);
+  // ✅ Esperar a que termine de cargar antes de decidir
+  if (isLoading) return <p>Cargando información del candidato...</p>
 
-  if (!candidate) return <p>No hay información del candidato logueado.</p>;
+  // ✅ Ahora sí podemos verificar si hay datos
+  if (!candidate) return <p>No hay información del candidato logueado.</p>
 
   return (
     <div>
       <h2>Resumen del Candidato</h2>
       <ul>
-        <li><strong>ID:</strong> {candidate.id}</li>
-        <li><strong>Nombre:</strong> {candidate.name}</li>
-        <li><strong>Primer Apellido:</strong> {candidate.firstLastName}</li>
-        <li><strong>Segundo Apellido:</strong> {candidate.secondLastName}</li>
-        <li><strong>Email:</strong> {candidate.email}</li>
-        <li><strong>Rol:</strong> {candidate.role}</li>
+        <li>
+          <strong>ID:</strong> {candidate.id}
+        </li>
+        <li>
+          <strong>Nombre:</strong> {candidate.name}
+        </li>
+        <li>
+          <strong>Primer Apellido:</strong> {candidate.firstLastName}
+        </li>
+        <li>
+          <strong>Segundo Apellido:</strong> {candidate.secondLastName}
+        </li>
+        <li>
+          <strong>Email:</strong> {candidate.email}
+        </li>
+        <li>
+          <strong>Rol:</strong> {candidate.role}
+        </li>
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage
