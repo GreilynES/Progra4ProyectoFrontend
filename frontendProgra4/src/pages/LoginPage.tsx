@@ -12,14 +12,16 @@ const Login = () => {
       password: '',
     },
     onSubmit: async ({ value }) => {
-      try {
-        await loginMutation.mutateAsync(value);
-        alert('Login exitoso');
-        router.navigate({ to: '/profile' }); // redirige después del login
-      } catch (error) {
-        alert('Login fallido');
-      }
-    },
+  try {
+    const response = await loginMutation.mutateAsync(value);
+    // Guarda el token en localStorage
+    localStorage.setItem("token", response.token); // Ajusta 'token' según tu backend
+    alert('Login exitoso');
+    router.navigate({ to: '/profile' }); 
+  } catch (error) {
+    alert('Login fallido');
+  }
+},
   });
 
   return (

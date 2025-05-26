@@ -38,7 +38,7 @@ export const useGetCandidates_ReactQuery = () => {
   return { candidates, isPending, error };
 };
 
-// ✅ Obtener candidato logueado desde localStorage
+// candidato logueado desde localStorage
 export const useLoggedCandidate = () => {
   const [candidate, setCandidate] = useState<Candidate | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +50,7 @@ export const useLoggedCandidate = () => {
         const parsed: Candidate = JSON.parse(data);
         setCandidate(parsed);
       } catch (err) {
-        console.error("❌ Error al leer los datos del candidato");
+        console.error("Error al leer los datos del candidato");
       }
     }
     setIsLoading(false);
@@ -59,7 +59,7 @@ export const useLoggedCandidate = () => {
   return { candidate, isLoading };
 };
 
-// ✅ Crear candidato con React Query
+// candidato con React Query
 export const useCreateCandidateMutation = () => {
   const queryClient = useQueryClient();
 
