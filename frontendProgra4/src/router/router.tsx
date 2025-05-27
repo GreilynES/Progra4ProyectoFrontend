@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import Login from "../pages/LoginPage";
 import RegisterPage from "../pages/candidates/RegisterPage";
-import OffersPage from "../pages/OffersPage";
+import OffersPage from "../pages/OffersPageAll";
 import ProfilePage from "../pages/ProfilePage";
 import { useEffect, useState } from "react";
 

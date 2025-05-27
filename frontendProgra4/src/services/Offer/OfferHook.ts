@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getMatchedOffers } from "./OfferService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { applyToOffer, getMatchedOffers } from "./OfferService";
 
 
 export const useMatchedOffers = (candidateId: number) => {
@@ -7,5 +7,12 @@ export const useMatchedOffers = (candidateId: number) => {
     queryKey: ["matchedOffers", candidateId],
     queryFn: () => getMatchedOffers(candidateId),
     enabled: !!candidateId,
+  });
+};
+
+export const useApplyToOffer = () => {
+  return useMutation({
+    mutationFn: ({ candidateId, offerId }: { candidateId: number; offerId: number }) =>
+      applyToOffer(candidateId, offerId),
   });
 };
