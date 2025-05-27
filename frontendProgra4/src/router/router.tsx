@@ -42,6 +42,7 @@ const rootRoute = createRootRoute({
           <button
             onClick={() => {
               localStorage.removeItem("token");
+              localStorage.removeItem("candidate");
               window.location.href = "/login";
             }}
           >

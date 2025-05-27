@@ -5,18 +5,20 @@ const ProfilePage = () => {
   const { candidate, isLoading } = useLoggedCandidate();
   const {
     allSkills,
+    candidateSkills,
     loadSkills,
     loadCandidateSkills,
     toggleSkill,
     hasSkill,
   } = useCandidateSkills(candidate?.id);
 
+  // ✅ Limpiar skills anteriores y cargar nuevos cuando cambia el candidato
   useEffect(() => {
-    if (candidate) {
+    if (candidate?.id) {
       loadSkills();
       loadCandidateSkills();
     }
-  }, [candidate]);
+  }, [candidate?.id]); // <-- Detecta cambio de ID específicamente
 
   if (isLoading) return <p>Cargando datos del candidato...</p>;
   if (!candidate) return <p>No hay información del candidato logueado.</p>;

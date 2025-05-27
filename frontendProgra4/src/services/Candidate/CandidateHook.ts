@@ -14,21 +14,7 @@ import type { Candidate } from "../../models/Candidates/Candidate";
 import type { CandidateSkill } from "../../models/Candidates/CandidateSkill";
 import type { Skill } from "../../models/Skill/Skill";
 
-// ✅ Obtener todos los candidatos (fetch manual)
-export const useGetCandidates = () => {
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const data = await getAllCandidates();
-      setCandidates(data);
-    })();
-  }, []);
-
-  return { candidates };
-};
-
-// ✅ Obtener candidatos con React Query
+// Obtener todos los candidatos
 export const useGetCandidates_ReactQuery = () => {
   const { data: candidates, isPending, error } = useQuery({
     queryKey: ["candidates"],
@@ -38,47 +24,19 @@ export const useGetCandidates_ReactQuery = () => {
   return { candidates, isPending, error };
 };
 
-// candidato logueado desde localStorage
-export const useLoggedCandidate = () => {
-  const [candidate, setCandidate] = useState<Candidate | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const data = localStorage.getItem("candidate");
-    if (data) {
-      try {
-        const parsed: Candidate = JSON.parse(data);
-        setCandidate(parsed);
-      } catch (err) {
-        console.error("Error al leer los datos del candidato");
-      }
-    }
-    setIsLoading(false);
-  }, []);
-
-  return { candidate, isLoading };
-};
-
-// candidato con React Query
+// Crear candidato
 export const useCreateCandidateMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (candidate: Candidate) => {
-      const created = await createCandidate(candidate);
-      console.log("✅ Candidato creado:", created);
-      return created;
-    },
+    mutationFn: createCandidate,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["candidates"] });
-    },
-    onError: (err) => {
-      console.error("❌ Error al crear candidato", err);
     },
   });
 };
 
-// ✅ Eliminar candidato
+// Eliminar candidato
 export const useDeleteCandidateMutation = () => {
   const queryClient = useQueryClient();
 
@@ -90,51 +48,69 @@ export const useDeleteCandidateMutation = () => {
   });
 };
 
-// ✅ Login con token
+// Login y guarda token + candidato
 export const useLoginMutation = () => {
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: login,
+    onSuccess: (res) => {
+      console.log(res.token);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("candidate", JSON.stringify(res.candidate));
+    },
+    onError: (error) => {
+      console.error("❌ Error de login", error);
+    },
   });
+
+  return mutation;
 };
 
-// ✅ Habilidades del candidato
+// Obtener candidato logueado desde localStorage
+export const useLoggedCandidate = () => {
+  const [candidate, setCandidate] = useState<Candidate | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const data = localStorage.getItem("candidate");
+    if (data) {
+      const parsed: Candidate = JSON.parse(data);
+      setCandidate(parsed);
+    }
+    setIsLoading(false);
+  }, []);
+
+  return { candidate, isLoading };
+};
+
+// Obtener habilidades
 export const useCandidateSkills = (candidateId?: number) => {
   const [allSkills, setAllSkills] = useState<Skill[]>([]);
   const [candidateSkills, setCandidateSkills] = useState<CandidateSkill[]>([]);
 
   const loadSkills = async () => {
-    try {
-      const skills = await fetchAllSkills();
-      setAllSkills(skills);
-    } catch (e) {
-      console.error("❌ Error al cargar habilidades", e);
-    }
+    const skills = await fetchAllSkills();
+    setAllSkills(skills);
   };
 
   const loadCandidateSkills = async () => {
     if (!candidateId) return;
-    try {
-      const skills = await fetchCandidateSkills(candidateId);
-      setCandidateSkills(skills);
-    } catch (e) {
-      console.error("❌ Error al cargar habilidades del candidato", e);
-    }
+    const skills = await fetchCandidateSkills(candidateId);
+    setCandidateSkills(skills);
   };
 
   const toggleSkill = async (skillId: number) => {
+    if (!candidateId) return;
+
     const hasSkill = candidateSkills.some((cs) => cs.skillId === skillId);
-    try {
-      if (candidateId) {
-        if (hasSkill) {
-          await deleteCandidateSkill(candidateId, skillId);
-        } else {
-          await addCandidateSkill(candidateId, skillId);
-        }
-        await loadCandidateSkills();
-      }
-    } catch (e) {
-      console.error("❌ Error al modificar habilidad", e);
+
+    if (hasSkill) {
+      await deleteCandidateSkill(candidateId, skillId);
+    } else {
+      await addCandidateSkill(candidateId, skillId);
     }
+
+    const updatedSkills = await fetchCandidateSkills(candidateId);
+    setCandidateSkills(updatedSkills);
   };
 
   return {

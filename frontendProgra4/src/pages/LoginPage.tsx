@@ -13,9 +13,7 @@ const Login = () => {
     },
     onSubmit: async ({ value }) => {
   try {
-    const response = await loginMutation.mutateAsync(value);
-    // Guarda el token en localStorage
-    localStorage.setItem("token", response.token); // Ajusta 'token' según tu backend
+    await loginMutation.mutateAsync(value);
     alert('Login exitoso');
     router.navigate({ to: '/profile' }); 
   } catch (error) {
