@@ -2,10 +2,10 @@ import { useForm } from '@tanstack/react-form';
 import { CandidateInitialState, CandidateInitialStateLabels } from '../../models/Candidates/Candidate';
 import { useCreateCandidateMutation } from '../../services/Candidate/CandidateHook';
 import { Link, useRouter } from '@tanstack/react-router';
-
 import { useState } from 'react';
 import { RegisterSchema } from '../../schemas/schemas';
 import { splitStringByCapital } from '../../utils/capitalLetter';
+import { checkCandidateExists } from '../../services/Candidate/CandidateService';
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -15,6 +15,7 @@ const RegisterPage = () => {
   const form = useForm({
     defaultValues: CandidateInitialState,
     onSubmit: async ({ value }) => {
+      // Validar con Zod
       const validation = RegisterSchema.safeParse(value);
       if (!validation.success) {
         const errors: Record<string, string> = {};
@@ -23,6 +24,14 @@ const RegisterPage = () => {
           errors[field] = err.message;
         });
         setFormErrors(errors);
+        return;
+      }
+
+
+      const exists = await checkCandidateExists(value.email);
+      if (exists) {
+        setFormErrors({ Email: "Ya existe un candidato con este correo." });
+        alert("Ya existe un candidato con este correo.");
         return;
       }
 

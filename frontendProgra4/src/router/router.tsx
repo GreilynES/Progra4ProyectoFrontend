@@ -12,6 +12,7 @@ import RegisterPage from "../pages/candidates/RegisterPage";
 import OffersPage from "../pages/OffersPageAll";
 import ProfilePage from "../pages/ProfilePage";
 import { useEffect, useState } from "react";
+import OffersPageMine from "../pages/OffersPageMine";
 
 // Función para proteger rutas privadas
 const requireAuth = () => {
@@ -96,6 +97,14 @@ const profileRoute = createRoute({
   component: ProfilePage,
 });
 
+const offersMineRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/offers/mine",
+  beforeLoad: requireAuth, // si usás protección
+  component: OffersPageMine,
+});
+
+
 // Crear el router
 export const routeTree = rootRoute.addChildren([
   indexRoute,
@@ -103,6 +112,7 @@ export const routeTree = rootRoute.addChildren([
   registerRoute,
   offersRoute,
   profileRoute,
+  offersMineRoute
 ]);
 
 export const router = createRouter({

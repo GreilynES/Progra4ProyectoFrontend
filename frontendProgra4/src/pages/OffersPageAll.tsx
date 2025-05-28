@@ -1,19 +1,30 @@
+import { useQueryClient } from "@tanstack/react-query";
 import OfferCard from "../card/OfferCard";
 import { router } from "../router/router";
-import { useApplyToOffer, useMatchedOffers } from "../services/Offer/OfferHook";
+import { useMatchedOffers } from "../services/Offer/OfferHook";
+import { applyToOffer } from "../services/Offer/OfferService";
 
 export default function OffersPage() {
   const candidate = JSON.parse(localStorage.getItem("candidate") || "{}");
   const { data: offers, isLoading } = useMatchedOffers(candidate.id);
-  const { mutate: apply } = useApplyToOffer();
+  const queryClient = useQueryClient();
 
-  const handleApply = (offerId: number) => {
-    apply({ candidateId: candidate.id, offerId }, {
-      onSuccess: () => alert("¡Postulación exitosa!"),
-    });
+  const handleApply = async (offerId: number) => {
+    try {
+      await applyToOffer(candidate.id, offerId);
+      alert("¡Postulación exitosa!");
+      queryClient.invalidateQueries({
+        queryKey: ["myApplications", candidate.id],
+
+      });
+    } catch (error) {
+      alert("Error al postularse.");
+      console.error(error);
+    }
+    console.log(offerId, candidate.id);
   };
-
   
+
   const groupedOffers = offers?.reduce((acc: any, offer: any) => {
     const existing = acc.find((o: any) => o.offerId === offer.offerId);
     if (existing) {
