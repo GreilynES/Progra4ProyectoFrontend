@@ -27,7 +27,7 @@ function OffersPageMine() {
       <div className="offers-grid">
         {applications?.map((offer) =>
           (<OfferCardMine
-          key={offer.offerId}
+          key={offer.id}
           offer={offer}
           />
         ))}

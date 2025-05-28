@@ -37,13 +37,11 @@ export async function login(user: { email: string; password: string }) {
 // Validación de correo
 export async function checkCandidateExists(email: string): Promise<boolean> {
   try {
-    await api.get(`/Candidate/email/${email}`);
-    return true; // Si encuentra, retorna true
+    const response = await api.get(`/Candidate/email/${email}`);
+    return response.data === true; // backend devuelve true o false
   } catch (error: any) {
-    if (error.response?.status === 404) {
-      return false; // Si no existe
-    }
-    throw new Error("Error al verificar el correo"); // Error real
+    console.error("Error verificando correo:", error);
+    throw new Error("Error al verificar el correo");
   }
 }
 
