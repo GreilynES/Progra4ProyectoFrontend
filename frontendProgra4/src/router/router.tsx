@@ -36,7 +36,7 @@ const rootRoute = createRootRoute({
         if (showNavbar) {
     return (
       <>
-        <nav>
+        <nav className="navbar">
           <Link to="/offers">Offers</Link>
           <Link to="/profile">Profile</Link>
           <button

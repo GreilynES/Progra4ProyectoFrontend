@@ -15,14 +15,16 @@
     "@tanstack/react-query-devtools": "^5.77.2",
     "@tanstack/react-router": "^1.120.11",
     "@tanstack/router": "^0.0.1-beta.53",
+    "@tanstack/zod-form-adapter": "^0.42.1",
     "axios": "^1.9.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.1"
+    "react-router-dom": "^7.6.1",
+    "zod": "^3.25.30"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.5",
+    "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "eslint": "^9.25.0",

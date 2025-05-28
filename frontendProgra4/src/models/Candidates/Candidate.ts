@@ -10,10 +10,18 @@ export interface Candidate {
 
 export const CandidateInitialState = {
     id: 0,
-    Name: '',
-    FirstLastName: '',
-    SecondLastName: '',
-    Email: '',
-    Password: '',
+    name: '',
+    firstLastName: '',
+    secondLastName: '',
+    email: '',
+    password: '',
     role: ''
+}
+
+export const CandidateInitialStateLabels = {
+    name: '',
+    firstLastName: '',
+    secondLastName: '',
+    email: '',
+    password: ''
 }
