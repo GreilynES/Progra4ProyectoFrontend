@@ -1,4 +1,4 @@
-import OfferCard from "../card/OfferCard";
+
 import OfferCardMine from "../card/OfferCardMine";
 import { router } from "../router/router";
 import { useMyApplications } from "../services/Offer/OfferHook";

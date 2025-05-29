@@ -108,3 +108,125 @@ button:focus-visible {
 .navbar button:hover {
   text-decoration: underline;
 }
+
+/* Estilo para el OffersPageAll */
+
+.offers-page-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.offers-button {
+  background-color: #da1a5f;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.offers-button:hover {
+  background-color: #c01452;
+}
+
+.offers-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #0b0c2a;
+  font-weight: bold;
+}
+
+.offers-loading,
+.offers-no-results {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 1rem;
+}
+
+.offers-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/*login y register*/
+
+.register-container, .login-container {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.register-title, .login-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0b0c2a;
+  font-weight: bold;
+}
+
+.register-form, .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.register-field, .login-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-label, .login-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.register-input, .login-input {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.register-input:focus, .login-input:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+.register-error, .login-error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.register-button, .login-button {
+  background-color: #da1a5f;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover:not(:disabled), .login-button:hover:not(:disabled) {
+  background-color: #c01452
+}
+
+/*Alertas style register y login*/
+

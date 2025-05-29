@@ -32,6 +32,7 @@ const RegisterPage = () => {
       if (exists) {
         setFormErrors({ Email: "Ya existe un candidato con este correo." });
         alert("Ya existe un candidato con este correo.");
+        
         return;
       }
 
@@ -42,9 +43,11 @@ const RegisterPage = () => {
   });
 
   return (
-    <div>
-      <h1>Registrar Candidato</h1>
+  <div className="register-container">
+      <h1 className="register-title">Register Candidate</h1>
+
       <form
+        className="register-form"
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -52,13 +55,16 @@ const RegisterPage = () => {
         }}
       >
         {Object.keys(CandidateInitialStateLabels).map((fieldName) => (
-          <div key={fieldName}>
+          <div key={fieldName} className="register-field">
             <form.Field
               name={fieldName as keyof typeof CandidateInitialState}
               children={(field) => (
                 <>
-                  <label htmlFor={field.name}>{splitStringByCapital(field.name)}:</label>
+                  <label htmlFor={field.name} className="register-label">
+                    {splitStringByCapital(field.name)}:
+                  </label>
                   <input
+                    className="register-input"
                     id={field.name}
                     name={field.name}
                     type={field.name.toLowerCase().includes('password') ? 'password' : 'text'}
@@ -70,7 +76,7 @@ const RegisterPage = () => {
                     }}
                   />
                   {formErrors[field.name] && (
-                    <p style={{ color: "red", fontSize: "0.8rem" }}>{formErrors[field.name]}</p>
+                    <p className="register-error">{formErrors[field.name]}</p>
                   )}
                 </>
               )}
@@ -81,12 +87,14 @@ const RegisterPage = () => {
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
-            <button type="submit" disabled={!canSubmit}>
+            <button type="submit" className="register-button" disabled={!canSubmit}>
               {isSubmitting ? 'Creando...' : 'Registrar'}
             </button>
           )}
         />
-        <Link to="/login">¿Ya tienes una cuenta? Inicia sesión</Link>
+        <div className="register-info"> Already have an account? 
+          <Link to="/login"> Sign in</Link>
+        </div>
       </form>
     </div>
   );

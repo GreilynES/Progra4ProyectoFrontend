@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { applyToOffer, getMatchedOffers, getMyApplications } from "./OfferService";
 
 
@@ -11,11 +11,27 @@ export const useMatchedOffers = (candidateId: number) => {
 };
 
 
-export const useApplyToOffer = (candidateId:number, offerId:number) => {
-  return useQuery({
-    queryKey: ["hasApplied", candidateId, offerId],
-    queryFn: () => applyToOffer(candidateId, offerId),
-    enabled: !!candidateId && !!offerId,
+// export const useApplyToOffer = (candidateId:number, offerId:number) => {
+//   return useQuery({
+//     queryKey: ["hasApplied", candidateId, offerId],
+//     queryFn: () => applyToOffer(candidateId, offerId),
+//     enabled: !!candidateId && !!offerId,
+//   });
+// };
+
+export const useApplyToOffer = (candidateId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (offerId: number) => applyToOffer(candidateId, offerId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["myApplications", candidateId] });
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || "Error al postularse";
+      alert(message);
+      queryClient.invalidateQueries({ queryKey: ["myApplications", candidateId] });
+    },
   });
 };
 

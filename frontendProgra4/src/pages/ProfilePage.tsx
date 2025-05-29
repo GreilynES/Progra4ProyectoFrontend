@@ -1,27 +1,31 @@
-import { useEffect } from "react";
+
 import { useCandidateSkills, useLoggedCandidate } from "../services/Candidate/CandidateHook";
 
 const ProfilePage = () => {
-  const { candidate, isLoading } = useLoggedCandidate();
-  const {
-    allSkills,
-    candidateSkills,
-    loadSkills,
-    loadCandidateSkills,
-    toggleSkill,
-    hasSkill,
-  } = useCandidateSkills(candidate?.id);
+  // const { candidate, isLoading } = useLoggedCandidate();
+  // const {
+  //   allSkills,
 
-  // ✅ Limpiar skills anteriores y cargar nuevos cuando cambia el candidato
-  useEffect(() => {
-    if (candidate?.id) {
-      loadSkills();
-      loadCandidateSkills();
-    }
-  }, [candidate?.id]); // <-- Detecta cambio de ID específicamente
+  //   toggleSkill,
+  //   hasSkill,
+  // } = useCandidateSkills(candidate?.id);
 
-  if (isLoading) return <p>Cargando datos del candidato...</p>;
-  if (!candidate) return <p>No hay información del candidato logueado.</p>;
+  // // ✅ Limpiar skills anteriores y cargar nuevos cuando cambia el candidato
+  // useEffect(() => {
+  //   if (candidate?.id) {
+  //     loadSkills();
+  //     loadCandidateSkills();
+  //   }
+  // }, [candidate?.id]); // <-- Detecta cambio de ID específicamente
+
+  // if (isLoading) return <p>Cargando datos del candidato...</p>;
+  // if (!candidate) return <p>No hay información del candidato logueado.</p>;
+
+    const { candidate, isLoading } = useLoggedCandidate();
+    const {allSkills,toggleSkill,hasSkill,} = useCandidateSkills(candidate?.id);
+
+    if (isLoading) return <p>Cargando datos del candidato...</p>;
+    if (!candidate) return <p>No hay información del candidato logueado.</p>;
 
   return (
     <div className="p-6 space-y-4">

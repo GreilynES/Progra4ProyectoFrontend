@@ -1,30 +1,21 @@
-import { useQueryClient } from "@tanstack/react-query";
 import OfferCard from "../card/OfferCard";
 import { router } from "../router/router";
-import { useMatchedOffers } from "../services/Offer/OfferHook";
-import { applyToOffer } from "../services/Offer/OfferService";
-
+import { useApplyToOffer, useMatchedOffers } from "../services/Offer/OfferHook";
+import { useMyApplications } from "../services/Offer/OfferHook";
 export default function OffersPage() {
   const candidate = JSON.parse(localStorage.getItem("candidate") || "{}");
   const { data: offers, isLoading } = useMatchedOffers(candidate.id);
-  const queryClient = useQueryClient();
+  // Cargar las postulaciones del candidato
+  const { data: myApplications = [], isFetching } = useMyApplications(candidate.id);
+  const applyMutation = useApplyToOffer(candidate.id);
+ // Función para verificar si ya se ha postulado a una oferta
 
-  const handleApply = async (offerId: number) => {
-    try {
-      await applyToOffer(candidate.id, offerId);
-      alert("¡Postulación exitosa!");
-      queryClient.invalidateQueries({
-        queryKey: ["myApplications", candidate.id],
 
-      });
-    } catch (error) {
-      alert("Error al postularse.");
-      console.error(error);
-    }
-    console.log(offerId, candidate.id);
-  };
-  
-
+    const hasAppliedToOffer = (offerId: number) => {
+      return myApplications.some((app: any) => app.id === offerId);
+    };
+    
+// Agrupar ofertas por ID y combinar nombres de habilidades
   const groupedOffers = offers?.reduce((acc: any, offer: any) => {
     const existing = acc.find((o: any) => o.offerId === offer.offerId);
     if (existing) {
@@ -34,24 +25,30 @@ export default function OffersPage() {
     }
     return acc;
   }, []) || [];
+// Mostrar mensaje de actualización mientras se obtienen las postulaciones
+  console.log("Ofertas agrupadas:", groupedOffers);
+  console.log("Mis postulaciones:", myApplications);
+  {isFetching && <p>Actualizando postulaciones...</p>}
 
   return (
-    <div >
-       <button onClick={() => router.navigate({ to: '/offers/mine' })}> Ver mis postilaciones</button>
-      <h2 >Ofertas que coinciden con tus habilidades</h2>
+    <div className="offers-page-container" >
+       <button className="offers-button" 
+       onClick={() => router.navigate({ to: '/offers/mine' })}> Ver mis postulaciones</button>
+      <h2 className="offers-title" >Ofertas que coinciden con tus habilidades</h2>
 
-      {isLoading && <p>Cargando...</p>}
+      {isLoading && <p className="offers-loading">Cargando...</p>}
 
       {!isLoading && groupedOffers.length === 0 && (
-        <p>No hay ofertas disponibles.</p>
+        <p className="offers-no-results">No hay ofertas disponibles.</p>
       )}
      
-      <div className="grid gap-4">
+      <div className="offers-grid">
         {groupedOffers.map((offer: any) => (
           <OfferCard 
             key={offer.offerId}
             offer={offer}
-            onApply={() => handleApply(offer.offerId)}
+            onApply={() => applyMutation.mutate(offer.offerId)}
+            hasApplied={hasAppliedToOffer(offer.offerId)}
           />
         ))}
       </div>
