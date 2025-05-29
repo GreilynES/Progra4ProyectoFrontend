@@ -2,22 +2,38 @@ import { useForm } from '@tanstack/react-form';
 import { useLoginMutation } from '../services/Candidate/CandidateHook';
 import { Link, useRouter } from '@tanstack/react-router';
 import { CandidateLoginInitialState } from '../models/Candidates/CandidateLogin';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const router = useRouter()
   const loginMutation = useLoginMutation();
-
+  
   const form = useForm({
     defaultValues: CandidateLoginInitialState,
     onSubmit: async ({ value }) => {
-  try {
-    await loginMutation.mutateAsync(value);
-    alert('Login exitoso');
-    router.navigate({ to: '/profile' }); 
-  } catch (error) {
-    alert('Login fallido');
-  }
-},
+      try {
+        await loginMutation.mutateAsync(value);
+        await Swal.fire({
+          icon: 'success',
+          title: 'Login exitoso',
+          text: 'Has iniciado sesión correctamente',
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        router.navigate({ to: '/profile' });
+        // Redirigir y limpiar cualquier error anterior
+        router.navigate({ to: '/profile' });
+
+        // Esto borra errores de consola si los había (aunque no estrictamente necesario)
+        console.clear();
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login fallido',
+          text: 'Credenciales incorrectas',
+        });
+      }
+    },
   });
 
   return (

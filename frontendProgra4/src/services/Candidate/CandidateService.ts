@@ -34,16 +34,6 @@ export async function login(user: { email: string; password: string }) {
   return response.data;
 }
 
-// Validación de correo
-export async function checkCandidateExists(email: string): Promise<boolean> {
-  try {
-    const response = await api.get(`/Candidate/email/${email}`);
-    return response.data === true; // backend devuelve true o false
-  } catch (error: any) {
-    console.error("Error verificando correo:", error);
-    throw new Error("Error al verificar el correo");
-  }
-}
 
 // Habilidades
 export async function fetchAllSkills(): Promise<Skill[]> {

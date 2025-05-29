@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -199,8 +202,17 @@ button:focus-visible {
   border: 1px solid #ccc;
   font-size: 1rem;
   transition: border-color 0.2s;
+  height: 1.5rem;
 }
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 3.4rem !important;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 
+}
 .register-input:focus, .login-input:focus {
   border-color: #0056b3;
   outline: none;

@@ -1,5 +1,6 @@
 
 import { useCandidateSkills, useLoggedCandidate } from "../services/Candidate/CandidateHook";
+import { formatPhoneNumber } from "../utils/phoneNumberCountry";
 
 const ProfilePage = () => {
   // const { candidate, isLoading } = useLoggedCandidate();
@@ -24,19 +25,18 @@ const ProfilePage = () => {
     const { candidate, isLoading } = useLoggedCandidate();
     const {allSkills,toggleSkill,hasSkill,} = useCandidateSkills(candidate?.id);
 
-    if (isLoading) return <p>Cargando datos del candidato...</p>;
-    if (!candidate) return <p>No hay información del candidato logueado.</p>;
+    if (isLoading) return <p>Loading candidate data...</p>;
+    if (!candidate) return <p>There´s no enough information about the logged candidate.</p>;
 
   return (
     <div className="p-6 space-y-4">
-      <h2 className="text-xl font-bold">Resumen del Candidato</h2>
+      <h2 className="text-xl font-bold">Candidate Resume</h2>
       <ul className="list-disc list-inside space-y-1">
-        <li><strong>ID:</strong> {candidate.id}</li>
-        <li><strong>Nombre:</strong> {candidate.name}</li>
-        <li><strong>Primer Apellido:</strong> {candidate.firstLastName}</li>
-        <li><strong>Segundo Apellido:</strong> {candidate.secondLastName}</li>
+        <li><strong>Name:</strong> {candidate.name}</li>
+        <li><strong>First Lastname:</strong> {candidate.firstLastName}</li>
+        <li><strong>Second Lastname:</strong> {candidate.secondLastName}</li>
+        <li><strong>Phone Number:</strong> {formatPhoneNumber(candidate.phoneNumber)}</li>
         <li><strong>Email:</strong> {candidate.email}</li>
-        <li><strong>Rol:</strong> {candidate.role}</li>
       </ul>
 
       <h3 className="text-lg font-semibold mt-6">Habilidades</h3>
