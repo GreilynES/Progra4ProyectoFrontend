@@ -5,7 +5,6 @@ import { Link, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import { RegisterSchema } from '../../schemas/schemas';
 import { splitStringByCapital } from '../../utils/capitalLetter';
-import { checkCandidateExists } from '../../services/Candidate/CandidateService';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Necesario para estilos
 
