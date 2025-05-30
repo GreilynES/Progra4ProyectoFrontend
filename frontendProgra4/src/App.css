@@ -240,5 +240,6 @@ button:focus-visible {
   background-color: #c01452
 }
 
-/*Alertas style register y login*/
-
+.login-button{
+  margin-top: 1rem;
+}
