@@ -3,19 +3,20 @@ import { useLoginMutation } from '../services/Candidate/CandidateHook';
 import { Link, useRouter } from '@tanstack/react-router';
 import { CandidateLoginInitialState } from '../models/Candidates/CandidateLogin';
 import { showErrorAlertLogin, showSuccessAlertLogin } from '../utils/alerts';
+import { Mail, Lock } from 'lucide-react';
 
 const Login = () => {
   const router = useRouter();
   const loginMutation = useLoginMutation();
-  
+
   const form = useForm({
     defaultValues: CandidateLoginInitialState,
     onSubmit: async ({ value }) => {
       try {
         await loginMutation.mutateAsync(value);
-        await showSuccessAlertLogin(`You have logged in successfully. Welcome back!`)
+        await showSuccessAlertLogin('You have logged in successfully. Welcome back!');
         router.navigate({ to: '/profile' });
-        console.clear(); 
+        console.clear();
       } catch (error) {
         showErrorAlertLogin("Incorrect credentials.");
       }
@@ -36,16 +37,18 @@ const Login = () => {
         <form.Field name="email">
           {(field) => (
             <div className="login-field">
-              <label className="login-label" htmlFor="email">Email *</label>
-              <input
-                className="login-input"
-                id="email"
-                type="email"
-                placeholder="joe@example.com"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                onBlur={field.handleBlur}
-              />
+              <div className="input-icon-wrapper">
+                <Mail className="input-icon" />
+                <input
+                  className="login-input"
+                  id="email"
+                  type="email"
+                  placeholder="joe@example.com"
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                />
+              </div>
             </div>
           )}
         </form.Field>
@@ -53,16 +56,18 @@ const Login = () => {
         <form.Field name="password">
           {(field) => (
             <div className="login-field">
-              <label className="login-label" htmlFor="password">Password *</label>
-              <input
-                className="login-input"
-                id="password"
-                type="password"
-                placeholder='••••••'
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                onBlur={field.handleBlur}
-              />
+              <div className="input-icon-wrapper">
+                <Lock className="input-icon" />
+                <input
+                  className="login-input"
+                  id="password"
+                  type="password"
+                  placeholder="••••••"
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                />
+              </div>
             </div>
           )}
         </form.Field>

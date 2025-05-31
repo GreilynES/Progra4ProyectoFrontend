@@ -8,6 +8,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { showErrorAlertEmpty, showErrorDuplicateEmail, showSuccessAlertRegister } from '../../utils/alerts';
 import { validateRegisterForm } from '../../utils/validation';
+import { UserRound, Mail, Lock } from 'lucide-react';
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -42,138 +43,150 @@ const RegisterPage = () => {
   return (
     <div className="register-container">
       <h1 className="register-title">Register Candidate</h1>
-
-      <form
-        className="register-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
-        }}
-      >
+      <form className="register-form" onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
         <form.Field name="name">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="name">First Name *</label>
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="name" className="register-label">First Name</label>
+            <div className="input-icon-wrapper">
+              <UserRound className="input-icon" />
               <input
                 className="register-input"
                 id="name"
-                placeholder="Enter your first name"
+                placeholder="John"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.name && <p className="register-error">{formErrors.name}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.name && <p className="register-error">{formErrors.name}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="firstLastName">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="firstLastName">Last Name *</label>
+      <form.Field name="firstLastName">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="firstLastName" className="register-label">Last Name</label>
+            <div className="input-icon-wrapper">
+              <UserRound className="input-icon" />
               <input
                 className="register-input"
                 id="firstLastName"
-                placeholder='Enter your last name'
+                placeholder="Doe"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.firstLastName && <p className="register-error">{formErrors.firstLastName}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.firstLastName && <p className="register-error">{formErrors.firstLastName}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="secondLastName">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="secondLastName">Second Last Name</label>
+      <form.Field name="secondLastName">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="secondLastName" className="register-label">Second Last Name</label>
+            <div className="input-icon-wrapper">
+              <UserRound className="input-icon" />
               <input
                 className="register-input"
                 id="secondLastName"
-                placeholder="Enter your second last name"
+                placeholder="Smith"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.secondLastName && <p className="register-error">{formErrors.secondLastName}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.secondLastName && <p className="register-error">{formErrors.secondLastName}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="phoneNumber">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="phoneNumber">Phone Number</label>
-              <PhoneInput
-                country="cr"
-                value={field.state.value?.toString() || ''}
-                onChange={(value) => {
-                  field.handleChange(value);
-                  setFormErrors((prev) => ({ ...prev, phoneNumber: '' }));
-                }}
-                inputClass="register-input"
-                containerClass="register-phone-container"
-                buttonClass="register-phone-button"
-              />
-              {formErrors.phoneNumber && <p className="register-error">{formErrors.phoneNumber}</p>}
-            </div>
-          )}
-        </form.Field>
+      <form.Field name="phoneNumber">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="phoneNumber" className="register-label">Phone Number</label>
+            <PhoneInput
+              country="cr"
+              value={field.state.value?.toString() || ''}
+              onChange={(value) => {
+                field.handleChange(value);
+                setFormErrors((prev) => ({ ...prev, phoneNumber: '' }));
+              }}
+              inputClass="register-input-phone"
+              containerClass="register-phone-container"
+              buttonClass="register-phone-button"
+            />
+            {formErrors.phoneNumber && <p className="register-error">{formErrors.phoneNumber}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="email">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="email">Email *</label>
+      <form.Field name="email">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="email" className="register-label">Email</label>
+            <div className="input-icon-wrapper">
+              <Mail className="input-icon" />
               <input
                 className="register-input"
                 id="email"
                 type="email"
-                placeholder="joe@example.com"
+                placeholder="john.doe@example.com"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.email && <p className="register-error">{formErrors.email}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.email && <p className="register-error">{formErrors.email}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="password">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="password">Password *</label>
+      <form.Field name="password">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="password" className="register-label">Password</label>
+            <div className="input-icon-wrapper">
+              <Lock className="input-icon" />
               <input
                 className="register-input"
                 id="password"
                 type="password"
-                placeholder='••••••'
+                placeholder="••••••"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.password && <p className="register-error">{formErrors.password}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.password && <p className="register-error">{formErrors.password}</p>}
+          </div>
+        )}
+      </form.Field>
 
-        <form.Field name="confirmPassword">
-          {(field) => (
-            <div className="register-field">
-              <label className="register-label" htmlFor="confirmPassword">Confirm Password *</label>
+      <form.Field name="confirmPassword">
+        {(field) => (
+          <div className="register-field">
+            <label htmlFor="confirmPassword" className="register-label">Confirm Password</label>
+            <div className="input-icon-wrapper">
+              <Lock className="input-icon" />
               <input
                 className="register-input"
                 id="confirmPassword"
                 type="password"
-                placeholder='••••••'
+                placeholder="••••••"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
               />
-              {formErrors.confirmPassword && <p className="register-error">{formErrors.confirmPassword}</p>}
             </div>
-          )}
-        </form.Field>
+            {formErrors.confirmPassword && <p className="register-error">{formErrors.confirmPassword}</p>}
+          </div>
+        )}
+      </form.Field>
+
 
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
           {([canSubmit, isSubmitting]) => (

@@ -56,3 +56,7 @@ export async function addCandidateSkill(candidateId: number, skillId: number) {
 export async function deleteCandidateSkill(candidateId: number, skillId: number) {
   return await api.delete(`/CandidateSkill/${candidateId}/${skillId}`);
 }
+
+export async function deleteCandidateOffer(candidateId: number, offerId: number) {
+  return await api.delete(`/CandidateOffer/${candidateId}/${offerId}`);
+}

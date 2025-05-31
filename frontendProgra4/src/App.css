@@ -62,6 +62,12 @@ button:focus-visible {
   }
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
@@ -113,49 +119,70 @@ button:focus-visible {
 }
 
 /* Estilo para el OffersPageAll */
-
-.offers-page-container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.CardOffer {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+ 
+  flex: 1;
 }
 
-.offers-button {
-  background-color: #da1a5f;
-  color: #fff;
+.CardOffer p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.CardOffer strong {
+  color: #0b0c2a;
+}
+
+.skill-pill {
+  background-color: #f3f3f3;
+  color: #333;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.skill-pill.selected {
+  background-color: #48a6a7;
+  color: white;
+}
+
+.button-hasApplied {
+  background-color: #48a6a7;
+  color: white;
   font-weight: bold;
-  padding: 0.85rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  transition: background-color 0.3s;
-}
-
-.offers-button:hover {
-  background-color: #c01452;
-}
-
-.offers-title {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: #0b0c2a;
-  font-weight: bold;
-}
-
-.offers-loading,
-.offers-no-results {
-  font-size: 1rem;
-  color: #555;
   margin-top: 1rem;
 }
 
-.offers-grid {
-  display: grid;
+.button-hasApplied:hover {
+  background-color: #3a8284;
+}
+
+.button-disabled-Application {
+  background-color: #ccc;
+  color: #666;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  cursor: not-allowed;
+}
+
+.offers-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 2rem;
+  justify-content: space-between;
 }
 
 /*login y register*/
@@ -214,7 +241,7 @@ button:focus-visible {
 
 }
 .register-input:focus, .login-input:focus {
-  border-color: #0056b3;
+  border-color: #48a6a7;
   outline: none;
 }
 
@@ -243,3 +270,192 @@ button:focus-visible {
 .login-button{
   margin-top: 1rem;
 }
+
+/*Iconos*/
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #6b7280;
+  width: 20px;
+  height: 20px;
+}
+
+.register-input, .login-input {
+  width: 87%;
+  padding-left: 40px; 
+  padding-right: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+}
+
+.register-error {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* /Perfil/ */
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.profile-items-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Encabezado del perfil */
+.profile-header {
+  margin-bottom: 1.5rem;
+}
+
+.profile-main-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #333333;
+}
+
+.profile-subtitle-text {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+  width: 100%;
+}
+
+/* Contenido del perfil */
+.profile-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 75%;
+}
+
+/* Tarjetas */
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  width: 90%;
+}
+
+/* Títulos de sección */
+.profile-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: #333333;
+}
+
+/* Campos de información */
+.profile-field {
+  margin-bottom: 1.25rem;
+}
+
+.profile-field:last-child {
+  margin-bottom: 0;
+}
+
+.profile-field-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.profile-field-value {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-bottom: #f1f1f1 0.5px solid;
+}
+
+.profile-icon {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.profile-icon-information{
+  color: #6b7280;
+  width: 20px;
+  height: 20px;
+}
+
+/* Descripción de habilidades */
+.profile-skills-description {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Contador de habilidades */
+.profile-skills-counter {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+/* Contenedor de habilidades */
+.profile-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Botones de habilidades */
+.skill-button {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #333333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.skill-button:hover {
+  border-color: #48a6a7;
+  color: #48a6a7;
+}
+
+.skill-active {
+  background-color: #48a6a7;
+  color: #ffffff;
+  border-color: #48a6a7;
+}
+
+.skill-active:hover {
+  background-color: #48a6a7;
+  opacity: 0.9;
+}
+
+/* Estados de carga y error */
+.profile-loading,
+.profile-error {
+  text-align: center;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.profile-error {
+  color: #dc3545;
+}
+

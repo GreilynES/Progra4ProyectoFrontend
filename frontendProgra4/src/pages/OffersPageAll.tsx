@@ -42,7 +42,7 @@ export default function OffersPage() {
         <p className="offers-no-results">No hay ofertas disponibles.</p>
       )}
      
-      <div className="offers-grid">
+      <div className="offers-flex">
         {groupedOffers.map((offer: any) => (
           <OfferCard 
             key={offer.offerId}
