@@ -1,24 +1,17 @@
+// ./services/Offer/OfferHook.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { applyToOffer, getMatchedOffers, getMyApplications } from "./OfferService";
 
-
-export const useMatchedOffers = (candidateId: number) => {
+// Ofertas que coinciden con habilidades del candidato
+export const useMatchedOffers = (candidateId?: number) => {
   return useQuery({
     queryKey: ["matchedOffers", candidateId],
-    queryFn: () => getMatchedOffers(candidateId),
+    queryFn: () => getMatchedOffers(candidateId!),
     enabled: !!candidateId,
   });
 };
 
-
-// export const useApplyToOffer = (candidateId:number, offerId:number) => {
-//   return useQuery({
-//     queryKey: ["hasApplied", candidateId, offerId],
-//     queryFn: () => applyToOffer(candidateId, offerId),
-//     enabled: !!candidateId && !!offerId,
-//   });
-// };
-
+// Postularse a una oferta
 export const useApplyToOffer = (candidateId: number) => {
   const queryClient = useQueryClient();
 
@@ -35,14 +28,11 @@ export const useApplyToOffer = (candidateId: number) => {
   });
 };
 
-export const useMyApplications = (candidateId: number) => {
+// Obtener postulaciones hechas por el candidato
+export const useMyApplications = (candidateId?: number) => {
   return useQuery({
     queryKey: ["myApplications", candidateId],
-    queryFn: async () => {
-      const data = await getMyApplications(candidateId);
-      console.log("My Applications response:", data);
-      return data;
-    },
+    queryFn: () => getMyApplications(candidateId!),
     enabled: !!candidateId,
   });
 };
