@@ -31,9 +31,9 @@ const rootRoute = createRootRoute({
 
     useEffect(() => {
       const token = localStorage.getItem("token");
-      const isAuthPage = ["/login", "/register"].includes(pathname);
+      const isAuthPage = ["/", "/home","/login", "/register"].includes(pathname);
       setShowNavbar(!!token && !isAuthPage);
-    }, [pathname]); // Se actualiza cuando cambia la ruta
+    }, [pathname]);
 
         if (showNavbar) {
     return (
