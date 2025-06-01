@@ -17,10 +17,9 @@ function PrincipalPage() {
           <div className="hero-buttons">
             <Link to="/login" className="btn-primary">
               Sign In
-              <ArrowRight className="btn-icon" />
             </Link>
             <Link to="/register" className="btn-secondary">
-              Sign Up
+              Register
             </Link>
           </div>
         </div>

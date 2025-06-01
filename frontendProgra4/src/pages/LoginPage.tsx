@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h1 className="login-title">Login</h1>
+      <h1 className="login-title">Sign in to your account</h1>
 
       <form
         className="login-form"
@@ -43,7 +43,7 @@ const Login = () => {
                   className="login-input"
                   id="email"
                   type="email"
-                  placeholder="joe@example.com"
+                  placeholder="Enter your email"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
@@ -62,7 +62,7 @@ const Login = () => {
                   className="login-input"
                   id="password"
                   type="password"
-                  placeholder="••••••"
+                  placeholder="Enter your password"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
@@ -85,7 +85,7 @@ const Login = () => {
         </form.Subscribe>
 
         <div className="login-info">
-          Do not have an account? <Link to="/register">Sing up</Link>
+          Do not have an account? <Link to="/register">Register here</Link>
         </div>
       </form>
     </div>

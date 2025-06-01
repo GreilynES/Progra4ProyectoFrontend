@@ -52,7 +52,7 @@ export const showErrorDuplicateEmail = (message: string) => {
 
 export const showWarningAlert = (message: string) => {
    return Swal.fire({
-             title: '¿Eliminar postulación?',
+             title: 'Delete applicaion?',
              text: message,
              icon: 'warning',
              showCancelButton: true,
@@ -61,7 +61,7 @@ export const showWarningAlert = (message: string) => {
                 confirmButton: 'no-border-button',
               },
              cancelButtonColor: '#d33',
-             confirmButtonText: 'Sí, eliminar',
-             cancelButtonText: 'Cancelar',
+             confirmButtonText: 'Yes, delete it',
+             cancelButtonText: 'No, cancel',
            });
 }

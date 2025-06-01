@@ -42,7 +42,7 @@ const RegisterPage = () => {
 
   return (
     <div className="register-container">
-      <h1 className="register-title">Register Candidate</h1>
+      <h1 className="register-title">Create your account</h1>
       <form className="register-form" onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
         <form.Field name="name">
         {(field) => (
@@ -53,7 +53,7 @@ const RegisterPage = () => {
               <input
                 className="register-input"
                 id="name"
-                placeholder="John"
+                placeholder="Enter your name"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -73,7 +73,7 @@ const RegisterPage = () => {
               <input
                 className="register-input"
                 id="firstLastName"
-                placeholder="Doe"
+                placeholder="Enter your last name"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -93,7 +93,7 @@ const RegisterPage = () => {
               <input
                 className="register-input"
                 id="secondLastName"
-                placeholder="Smith"
+                placeholder="Enter your second last name"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -134,7 +134,7 @@ const RegisterPage = () => {
                 className="register-input"
                 id="email"
                 type="email"
-                placeholder="john.doe@example.com"
+                placeholder="Enter your email"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -155,7 +155,7 @@ const RegisterPage = () => {
                 className="register-input"
                 id="password"
                 type="password"
-                placeholder="••••••"
+                placeholder="Create a password"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -176,7 +176,7 @@ const RegisterPage = () => {
                 className="register-input"
                 id="confirmPassword"
                 type="password"
-                placeholder="••••••"
+                placeholder="Confirm your password"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -197,7 +197,7 @@ const RegisterPage = () => {
         </form.Subscribe>
 
         <div className="register-info">
-          Already have an account? <Link to="/login">Sing in</Link>
+          Already have an account? <Link to="/login">Sing in here</Link>
         </div>
       </form>
     </div>
