@@ -13,6 +13,10 @@ export const showErrorAlertLogin = (message: string) => {
               icon: 'error',
               title: 'Login failed',
               text: message,
+              confirmButtonColor: '#48a6a7',
+               customClass: {
+                confirmButton: 'no-border-button',
+              },
             })
 }
 
@@ -39,5 +43,25 @@ export const showErrorDuplicateEmail = (message: string) => {
                icon: 'warning',
                title: 'Duplicate email',
                text: message,
+               confirmButtonColor: '#48a6a7',
+                customClass: {
+                confirmButton: 'no-border-button',
+              },
              })
+}
+
+export const showWarningAlert = (message: string) => {
+   return Swal.fire({
+             title: '¿Eliminar postulación?',
+             text: message,
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonColor: '#48a6a7',
+                customClass: {
+                confirmButton: 'no-border-button',
+              },
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sí, eliminar',
+             cancelButtonText: 'Cancelar',
+           });
 }

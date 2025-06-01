@@ -73,13 +73,14 @@ export default function OffersPage() {
       </div>
 
       <div className="offer-page-pagination">
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="pagination-button"
-        >
-          Previous
-        </button>
+        {currentPage > 1 && (
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            className="pagination-button"
+          >
+            Previous
+          </button>
+        )}
 
         {[...Array(totalPages)].map((_, index) => (
           <button
@@ -91,14 +92,16 @@ export default function OffersPage() {
           </button>
         ))}
 
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="pagination-button"
-        >
-          Next
-        </button>
+        {currentPage < totalPages && (
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            className="pagination-button"
+          >
+            Next
+          </button>
+        )}
       </div>
+
     </div>
   );
 }

@@ -14,6 +14,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Candidate } from "../../models/Candidates/Candidate";
 import type { CandidateSkill } from "../../models/Candidates/CandidateSkill";
 import type { Skill } from "../../models/Skill/Skill";
+import { useMyApplications } from "../Offer/OfferHook";
+import Swal from "sweetalert2";
+import { showWarningAlert } from "../../utils/alerts";
 
 // Crear candidato
 export const useCreateCandidateMutation = () => {
@@ -148,4 +151,45 @@ export const useCandidateSkills = (candidateId?: number) => {
   const { toggleSkill, hasSkill } = useToggleCandidateSkill(candidateId, candidateSkills);
 
   return { allSkills, candidateSkills, toggleSkill, hasSkill };
+};
+
+export const useProfileLogic = () => {
+  const { candidate, isLoading } = useLoggedCandidate();
+  const { allSkills, toggleSkill, hasSkill } = useCandidateSkills(candidate?.id);
+  const { data: myApplications = [] } = useMyApplications(candidate?.id);
+  const removeCandidateOffer = useRemoveCandidateOffer(candidate?.id);
+
+  const smartToggleSkill = async (skillId: number) => {
+  const currentlyHasSkill = hasSkill(skillId);
+
+  toggleSkill(skillId); // Siempre aplicar el cambio de habilidad
+
+  if (currentlyHasSkill) {
+    // Evaluar en qué postulaciones esa skill es requerida y sería la última
+    for (const offer of myApplications) {
+      const requiredSkillIds = offer.offerSkills?.map((s) => s.skillId) || [];
+
+      const requiredSkill = requiredSkillIds.includes(skillId);
+      const stillHasOthers = requiredSkillIds.some(
+        (id) => id !== skillId && hasSkill(id)
+      );
+
+      if (requiredSkill && !stillHasOthers) {
+        const result = await showWarningAlert(`Quitar esta habilidad eliminará tu postulación a "${offer.name}". ¿Estás seguro?`);
+
+        if (result.isConfirmed) {
+          removeCandidateOffer.mutate({ offerId: offer.id });
+        }
+      }
+    }
+  }
+};
+
+  return {
+    candidate,
+    isLoading,
+    allSkills,
+    hasSkill,
+    smartToggleSkill,
+  };
 };
