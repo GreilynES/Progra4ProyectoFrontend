@@ -21,6 +21,19 @@
   }
 }
 
+.no-border-button {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 6px;
+  background-color: #48a6a7; /* opcional */
+  color: white; /* opcional */
+}
+
+.no-border-button:hover {
+  background-color: #3a8284;
+}
+
 *{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -225,7 +238,39 @@ button:focus-visible {
   color: #48a6a7;
   border:  #48a6a7 0.1px solid;
     
+
 }
+
+.cancel-button-container {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cancel-application-button {
+  background-color: transparent;
+  border: 2px solid #dc2626; /* rojo */
+  color: #dc2626;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-application-button:hover {
+  background-color: #dc2626;
+  color: white;
+}
+
+.cancel-application-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: #999;
+  color: #999;
+}
+
+
 
 .offer-page-pagination {
   margin-top: 2rem;
@@ -251,7 +296,7 @@ button:focus-visible {
     border: white 0.1px solid;
 }
 
-/*login y register*/
+/* /login y register/ */
 
 .register-container, .login-container {
   max-width: 420px;
@@ -339,7 +384,7 @@ button:focus-visible {
   margin-top: 1rem;
 }
 
-/*Iconos*/
+/* /Iconos/ */
 .input-icon-wrapper {
   position: relative;
 }

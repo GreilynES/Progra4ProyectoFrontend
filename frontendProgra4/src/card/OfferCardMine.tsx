@@ -1,33 +1,46 @@
-import type { Offer } from "../models/Offers/Offer"
-
+import type { Offer } from "../models/Offers/Offer";
 
 type OfferProps = {
-    offer: Offer
-}
+  offer: Offer;
+  onCancel: () => void;
+  isLoading?: boolean;
+};
 
-const OfferCardMine = ({offer}: OfferProps) => {
-   return (
-     <div
-        key={offer.offerId}
-        className="bg-white rounded-xl shadow-md p-6 border border-[#81C3D7]">
-        <h3 className="text-xl font-semibold text-[#2F6690] mb-1">
-            {offer.offerName}
-        </h3>
-        <p className="text-sm text-gray-600 mb-2">
-            Empresa: <span className="font-medium">{offer.company?.name}</span>
-        </p>
-        <p className="text-sm text-gray-700 mb-4">{offer.offerDescription}</p>
+const OfferCardMine = ({ offer, onCancel, isLoading }: OfferProps) => {
+  return (
+    <div className="CardOffer">
+      <p>
+        <strong>Stand:</strong> {offer.name}
+      </p>
+      <p>
+        <strong>Enterprise:</strong> {offer.company?.name}
+      </p>
+      <p>
+        <strong>Description:</strong> {offer.description}
+      </p>
 
-        <div className="mb-4">
-            <p className="text-sm font-medium text-[#3A7CA5] mb-1">Habilidades requeridas:</p>
-            <ul className="list-disc pl-5 text-sm text-gray-600">
-                {offer.offerSkills?.map((skill) => (
-                <li key={skill.skill.id}>{skill.skill.name}</li>
-                ))}
-            </ul>
+      <div className="skills-container">
+        <strong>Skills Required:</strong>
+        <div style={{ marginTop: "0.5rem" }}>
+          {offer.offerSkills?.map((skill) => (
+            <span key={skill.skill.id} className="skill-pill">
+              {skill.skill.name}
+            </span>
+          ))}
         </div>
-    </div>
-  )
-}
+      </div>
 
-export default OfferCardMine
+      <div className="cancel-button-container">
+        <button
+          className="cancel-application-button"
+          onClick={onCancel}
+          disabled={isLoading}
+        >
+          {isLoading ? "Removing..." : "Cancel Application"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default OfferCardMine;

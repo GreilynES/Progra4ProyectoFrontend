@@ -34,14 +34,12 @@ function OffersPageMine() {
       <div className="offers-grid">
         {applications?.map((offer) => (
           <div key={offer.id} style={{ position: "relative" }}>
-            <OfferCardMine offer={offer} />
-            <button
-              className="cancel-button"
-              onClick={() => removeCandidateOffer.mutate({ offerId: offer.id })}
-              disabled={removeCandidateOffer.isPending}
-            >
-              {removeCandidateOffer.isPending ? "Removing..." : "Cancel Application"}
-            </button>
+            <OfferCardMine
+              offer={offer}
+              onCancel={() => removeCandidateOffer.mutate({ offerId: offer.id })}
+              isLoading={removeCandidateOffer.isPending}
+            />
+
           </div>
         ))}
       </div>
