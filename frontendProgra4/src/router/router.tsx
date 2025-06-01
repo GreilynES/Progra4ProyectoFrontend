@@ -13,6 +13,7 @@ import OffersPage from "../pages/OffersPageAll";
 import ProfilePage from "../pages/ProfilePage";
 import { useEffect, useState } from "react";
 import OffersPageMine from "../pages/OffersPageMine";
+import PrincipalPage from "../pages/PrincipalPage";
 
 // Función para proteger rutas privadas
 const requireAuth = () => {
@@ -47,7 +48,7 @@ const rootRoute = createRootRoute({
               window.location.href = "/login";
             }}
           >
-            Cerrar Sesión
+            Log out
           </button>
         </nav>
         <Outlet />
@@ -66,9 +67,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  beforeLoad: () => {
-    throw redirect({ to: "/register" });
-  },
+  component: PrincipalPage,
 });
 
 const loginRoute = createRoute({
@@ -104,6 +103,11 @@ const offersMineRoute = createRoute({
   component: OffersPageMine,
 });
 
+const homeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/home",
+  component: PrincipalPage,
+});
 
 // Crear el router
 export const routeTree = rootRoute.addChildren([
@@ -112,7 +116,8 @@ export const routeTree = rootRoute.addChildren([
   registerRoute,
   offersRoute,
   profileRoute,
-  offersMineRoute
+  offersMineRoute,
+  homeRoute
 ]);
 
 export const router = createRouter({

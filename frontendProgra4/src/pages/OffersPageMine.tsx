@@ -8,35 +8,42 @@ function OffersPageMine() {
   const { data: applications, isLoading } = useMyApplications(candidate.id);
   const removeCandidateOffer = useRemoveCandidateOffer(candidate.id);
   console.log("Mis postulaciones:", applications);
+
   return (
     <div className="offers-page">
+      {/* Botón para volver a ver todas las ofertas */}
       <button
         onClick={() => router.navigate({ to: "/offers" })}
         className="offers-button"
       >
-        Ver todas las ofertas
+        View All Offers
       </button>
 
-      <h2 className="offers-title">Mis Postulaciones</h2>
+      {/* Título de la sección */}
+      <h2 className="offers-title">My Applications</h2>
 
-      {isLoading && <p>Cargando postulaciones...</p>}
+      {/* Mostrar cargando mientras se obtienen las postulaciones */}
+      {isLoading && <p>Loading applications...</p>}
 
+      {/* Mostrar mensaje si no hay postulaciones */}
       {!isLoading && (!applications || applications.length === 0) && (
-        <p>No hay postulaciones registradas.</p>
+        <p>No applications found.</p>
       )}
 
+      {/* Listado de postulaciones */}
       <div className="offers-grid">
-     {applications?.map((offer) => (
-    <div key={offer.id} style={{ position: "relative" }}>
-      <OfferCardMine offer={offer} />
-    <button
-      className="cancel-button"
-      onClick={() => removeCandidateOffer.mutate({ offerId: offer.id })}
-      disabled={removeCandidateOffer.isPending}>
-      {removeCandidateOffer.isPending ? "Eliminando..." : "Cancelar postulación"}
-    </button>
-    </div>
-  ))}
+        {applications?.map((offer) => (
+          <div key={offer.id} style={{ position: "relative" }}>
+            <OfferCardMine offer={offer} />
+            <button
+              className="cancel-button"
+              onClick={() => removeCandidateOffer.mutate({ offerId: offer.id })}
+              disabled={removeCandidateOffer.isPending}
+            >
+              {removeCandidateOffer.isPending ? "Removing..." : "Cancel Application"}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

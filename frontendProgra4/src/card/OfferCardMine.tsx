@@ -5,7 +5,6 @@ type OfferProps = {
     offer: Offer
 }
 
-
 const OfferCardMine = ({offer}: OfferProps) => {
    return (
      <div

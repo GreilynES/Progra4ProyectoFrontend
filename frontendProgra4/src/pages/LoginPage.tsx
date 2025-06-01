@@ -85,7 +85,7 @@ const Login = () => {
         </form.Subscribe>
 
         <div className="login-info">
-          Do not have an account? <Link to="/register">Register</Link>
+          Do not have an account? <Link to="/register">Sing up</Link>
         </div>
       </form>
     </div>

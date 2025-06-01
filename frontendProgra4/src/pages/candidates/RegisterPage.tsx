@@ -197,7 +197,7 @@ const RegisterPage = () => {
         </form.Subscribe>
 
         <div className="register-info">
-          Already have an account? <Link to="/login">Log in</Link>
+          Already have an account? <Link to="/login">Sing in</Link>
         </div>
       </form>
     </div>

@@ -1,22 +1,20 @@
+import { useState } from "react";
 import OfferCard from "../card/OfferCard";
 import { router } from "../router/router";
 import { useApplyToOffer, useMatchedOffers } from "../services/Offer/OfferHook";
 import { useMyApplications } from "../services/Offer/OfferHook";
+
 export default function OffersPage() {
   const candidate = JSON.parse(localStorage.getItem("candidate") || "{}");
   const { data: offers, isLoading } = useMatchedOffers(candidate.id);
-  // Cargar las postulaciones del candidato
   const { data: myApplications = [], isFetching } = useMyApplications(candidate.id);
   const applyMutation = useApplyToOffer(candidate.id);
- // Función para verificar si ya se ha postulado a una oferta
 
+  const hasAppliedToOffer = (offerId: number) => {
+    return myApplications.some((app: any) => app.id === offerId);
+  };
 
-    const hasAppliedToOffer = (offerId: number) => {
-      return myApplications.some((app: any) => app.id === offerId);
-    };
-    
-// Agrupar ofertas por ID y combinar nombres de habilidades
-  const groupedOffers = offers?.reduce((acc: any, offer: any) => {
+  const groupedOffers = offers?.reduce((acc: any, offer: any) => { //agrupar ofertas
     const existing = acc.find((o: any) => o.offerId === offer.offerId);
     if (existing) {
       existing.skillNames.push(offer.skillName);
@@ -25,32 +23,81 @@ export default function OffersPage() {
     }
     return acc;
   }, []) || [];
-// Mostrar mensaje de actualización mientras se obtienen las postulaciones
-  console.log("Ofertas agrupadas:", groupedOffers);
-  console.log("Mis postulaciones:", myApplications);
-  {isFetching && <p>Actualizando postulaciones...</p>}
+
+  // Paginación
+  const pageSize = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(groupedOffers.length / pageSize);
+
+  const paginatedOffers = groupedOffers.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo(0, 0);
+    }
+  };
 
   return (
-    <div className="offers-page-container" >
-       <button className="offers-button" 
-       onClick={() => router.navigate({ to: '/offers/mine' })}> Ver mis postulaciones</button>
-      <h2 className="offers-title" >Ofertas que coinciden con tus habilidades</h2>
+    <div className="offers-page-container">
+      <h1 className="offers-title">Offers Matching Your Skills</h1>
 
-      {isLoading && <p className="offers-loading">Cargando...</p>}
+      <div className="offers-container-button">
+        <button
+          className="offers-button"
+          onClick={() => router.navigate({ to: "/offers/mine" })}
+        >
+          View My Applications
+        </button>
+      </div>
+
+      {isLoading && <p>Loading offers...</p>}
+      {isFetching && <p>Updating applications...</p>}
 
       {!isLoading && groupedOffers.length === 0 && (
-        <p className="offers-no-results">No hay ofertas disponibles.</p>
+        <p>No offers available.</p>
       )}
-     
+
       <div className="offers-flex">
-        {groupedOffers.map((offer: any) => (
-          <OfferCard 
+        {paginatedOffers.map((offer: any) => (
+          <OfferCard
             key={offer.offerId}
             offer={offer}
             onApply={() => applyMutation.mutate(offer.offerId)}
             hasApplied={hasAppliedToOffer(offer.offerId)}
           />
         ))}
+      </div>
+
+      <div className="offer-page-pagination">
+        <button
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => goToPage(index + 1)}
+            className="pagination-button"
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
