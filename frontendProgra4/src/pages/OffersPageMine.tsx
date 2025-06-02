@@ -11,27 +11,24 @@ function OffersPageMine() {
 
   return (
     <div className="offers-page">
-      {/* Botón para volver a ver todas las ofertas */}
-      <button
+      <h1 className="offers-title">My Applications</h1>
+
+      <div  className="offers-container-button">
+       <button 
         onClick={() => router.navigate({ to: "/offers" })}
         className="offers-button"
       >
         View All Offers
       </button>
+      </div>
 
-      {/* Título de la sección */}
-      <h2 className="offers-title">My Applications</h2>
-
-      {/* Mostrar cargando mientras se obtienen las postulaciones */}
       {isLoading && <p>Loading applications...</p>}
 
-      {/* Mostrar mensaje si no hay postulaciones */}
       {!isLoading && (!applications || applications.length === 0) && (
         <p>No applications found.</p>
       )}
 
-      {/* Listado de postulaciones */}
-      <div className="offers-grid">
+      <div className="offers-flex">
         {applications?.map((offer) => (
           <div key={offer.id} style={{ position: "relative" }}>
             <OfferCardMine
@@ -39,12 +36,11 @@ function OffersPageMine() {
               onCancel={() => removeCandidateOffer.mutate({ offerId: offer.id })}
               isLoading={removeCandidateOffer.isPending}
             />
-
           </div>
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 export default OffersPageMine;

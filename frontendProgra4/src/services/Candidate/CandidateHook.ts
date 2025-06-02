@@ -1,15 +1,6 @@
 // ./services/Candidate/CandidateHook.ts
 import { useEffect, useState } from "react";
-import {
-  createCandidate,
-  deleteCandidate,
-  login,
-  fetchAllSkills,
-  fetchCandidateSkills,
-  addCandidateSkill,
-  deleteCandidateSkill,
-  deleteCandidateOffer,
-} from "./CandidateService";
+import {createCandidate, deleteCandidate, login, fetchAllSkills, fetchCandidateSkills, addCandidateSkill, deleteCandidateSkill, deleteCandidateOffer} from "./CandidateService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Candidate } from "../../models/Candidates/Candidate";
 import type { CandidateSkill } from "../../models/Candidates/CandidateSkill";
@@ -23,61 +14,61 @@ export const useCreateCandidateMutation = () => {
   return useMutation({
     mutationFn: createCandidate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+      queryClient.invalidateQueries({ queryKey: ["candidates"] })
     },
-  });
-};
+  })
+}
 
 // Eliminar candidato
 export const useDeleteCandidateMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: deleteCandidate,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+      queryClient.invalidateQueries({ queryKey: ["candidates"] })
     },
-  });
-};
+  })
+}
 
-// Login y guarda token + candidato
+// Login y guardar token + candidato
 export const useLoginMutation = () => {
   return useMutation({
     mutationFn: login,
     onSuccess: (res) => {
-      console.log(res.token);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("candidate", JSON.stringify(res.candidate));
+      console.log(res.token)
+      localStorage.setItem("token", res.token)
+      localStorage.setItem("candidate", JSON.stringify(res.candidate))
     },
     onError: (error) => {
-      console.error("❌ Error de login", error);
+      console.error("Error de login", error)
     },
-  });
-};
+  })
+}
 
 // Obtener candidato logueado desde localStorage
 export const useLoggedCandidate = () => {
-  const [candidate, setCandidate] = useState<Candidate | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [candidate, setCandidate] = useState<Candidate | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const data = localStorage.getItem("candidate");
+    const data = localStorage.getItem("candidate")
     if (data) {
-      const parsed: Candidate = JSON.parse(data);
-      setCandidate(parsed);
+      const parsed: Candidate = JSON.parse(data)
+      setCandidate(parsed)
     }
-    setIsLoading(false);
-  }, []);
+    setIsLoading(false)
+  }, [])
 
-  return { candidate, isLoading };
-};
+  return { candidate, isLoading }
+}
 
 // Obtener todas las habilidades disponibles
 export const useAllSkills = () => {
   return useQuery<Skill[]>({
     queryKey: ["allSkills"],
     queryFn: fetchAllSkills,
-  });
-};
+  })
+}
 
 // Obtener habilidades actuales del candidato
 export const useCandidateSkillsData = (candidateId?: number) => {
@@ -85,30 +76,30 @@ export const useCandidateSkillsData = (candidateId?: number) => {
     queryKey: ["candidateSkills", candidateId],
     queryFn: () => fetchCandidateSkills(candidateId!),
     enabled: !!candidateId,
-  });
-};
+  })
+}
 
 // Agregar skill al candidato
 export const useAddCandidateSkill = (candidateId?: number) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ skillId }: { skillId: number }) =>
       addCandidateSkill(candidateId!, skillId),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["candidateSkills", candidateId] }),
-  });
-};
+      queryClient.invalidateQueries({ queryKey: ["candidateSkills", candidateId] })
+  })
+}
 
 // Eliminar skill del candidato
 export const useRemoveCandidateSkill = (candidateId?: number) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ skillId }: { skillId: number }) =>
       deleteCandidateSkill(candidateId!, skillId),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["candidateSkills", candidateId] }),
-  });
-};
+      queryClient.invalidateQueries({ queryKey: ["candidateSkills", candidateId] })
+  })
+}
 
 // Cancelar postulación
 export const useRemoveCandidateOffer = (candidateId?: number) => {
@@ -120,14 +111,11 @@ export const useRemoveCandidateOffer = (candidateId?: number) => {
       queryClient.invalidateQueries({ queryKey: ["candidateOffers", candidateId] });
       queryClient.invalidateQueries({ queryKey: ["myApplications", candidateId] });
     },
-  });
-};
+  })
+}
 
 // Utilidad para alternar skills en perfil
-export const useToggleCandidateSkill = (
-  candidateId?: number,
-  candidateSkills: CandidateSkill[] = []
-) => {
+export const useToggleCandidateSkill = (candidateId?: number, candidateSkills: CandidateSkill[] = []) => {
   const addSkill = useAddCandidateSkill(candidateId);
   const removeSkill = useRemoveCandidateSkill(candidateId);
 
@@ -138,19 +126,18 @@ export const useToggleCandidateSkill = (
     hasSkill(skillId)
       ? removeSkill.mutate({ skillId })
       : addSkill.mutate({ skillId });
-  };
+  }
 
   return { toggleSkill, hasSkill };
-};
+}
 
-// Hook final combinado
 export const useCandidateSkills = (candidateId?: number) => {
   const { data: allSkills = [] } = useAllSkills();
   const { data: candidateSkills = [] } = useCandidateSkillsData(candidateId);
   const { toggleSkill, hasSkill } = useToggleCandidateSkill(candidateId, candidateSkills);
 
   return { allSkills, candidateSkills, toggleSkill, hasSkill };
-};
+}
 
 export const useProfileLogic = () => {
   const { candidate, isLoading } = useLoggedCandidate();
@@ -158,40 +145,43 @@ export const useProfileLogic = () => {
   const { data: myApplications = [] } = useMyApplications(candidate?.id);
   const removeCandidateOffer = useRemoveCandidateOffer(candidate?.id);
 
-const smartToggleSkill = async (skillId: number) => {
-  const currentlyHasSkill = hasSkill(skillId);
+  const smartToggleSkill = async (skillId: number) => {
+  const currentlyHasSkill = hasSkill(skillId)
 
   if (currentlyHasSkill) {
-    // Evaluar en qué postulaciones esa skill es requerida y sería la última
-    for (const offer of myApplications) {
+    const offersToLose = myApplications.filter((offer) => {
       const requiredSkillIds = offer.offerSkills?.map((s) => s.skillId) || [];
       const requiredSkill = requiredSkillIds.includes(skillId);
       const stillHasOthers = requiredSkillIds.some(
         (id) => id !== skillId && hasSkill(id)
-      );
+      )
 
-      if (requiredSkill && !stillHasOthers) {
-        const result = await showWarningAlert(
-        `If you delete this skill, you will lose your application to "${offer.name}". Are you sure?`
-        );
+      return requiredSkill && !stillHasOthers;
+    })
+    // Si hay offers con esa skill muestra alerta
+    if (offersToLose.length > 0) {
+      const offerNames = offersToLose.map((o) => "${o.name}").join(", ");
+      const result = await showWarningAlert(
+      `If you delete this skill, you will lose your application${offersToLose.length > 1 ? "s" : ""} to ${offerNames}. Are you sure?`
+      )
 
-        if (result.isConfirmed) {
-          toggleSkill(skillId); 
+      if (result.isConfirmed) {
+        toggleSkill(skillId);
+
+        offersToLose.forEach((offer) => {
           removeCandidateOffer.mutate({ offerId: offer.id });
-        }
-        return;
+        })
       }
+      return;
     }
   }
-
-  // Si no hay riesgo de perder postulación, o no era la última skill requerida
   toggleSkill(skillId);
-};
+}
   return {
     candidate,
     isLoading,
     allSkills,
     hasSkill,
     smartToggleSkill,
-  };
-};
+  }
+}

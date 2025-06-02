@@ -27,7 +27,7 @@ const ProfilePage = () => {
         toggleSkill={smartToggleSkill}
       />
     </div>
-  );
-};
+  )
+}
 
 export default ProfilePage;

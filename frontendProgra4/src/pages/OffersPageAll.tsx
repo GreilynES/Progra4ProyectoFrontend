@@ -12,7 +12,7 @@ export default function OffersPage() {
 
   const hasAppliedToOffer = (offerId: number) => {
     return myApplications.some((app: any) => app.id === offerId);
-  };
+  }
 
   const groupedOffers = offers?.reduce((acc: any, offer: any) => { //agrupar ofertas
     const existing = acc.find((o: any) => o.offerId === offer.offerId);
@@ -32,14 +32,14 @@ export default function OffersPage() {
   const paginatedOffers = groupedOffers.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
-  );
+  )
 
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       window.scrollTo(0, 0);
     }
-  };
+  }
 
   return (
     <div className="offers-page-container">
@@ -58,7 +58,7 @@ export default function OffersPage() {
       {isFetching && <p>Updating applications...</p>}
 
       {!isLoading && groupedOffers.length === 0 && (
-        <p>No offers available.</p>
+        <p>No offers available. Select skills to see offers.</p>
       )}
 
       <div className="offers-flex">
@@ -103,5 +103,5 @@ export default function OffersPage() {
       </div>
 
     </div>
-  );
+  )
 }

@@ -1,4 +1,3 @@
-// ./services/Offer/OfferHook.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { applyToOffer, getMatchedOffers, getMyApplications } from "./OfferService";
 

@@ -9,12 +9,3 @@ export interface OfferSkill {
   skillName: string;
   skill:Skill;
 }
-
-// export const OfferSkillInitialState: OfferSkill = {
-//   offerId: 0,
-//   offerName: "",
-//   offerDescription: "",
-//   companyName: "",
-//   skillId: 0,
-//   skillName: "",
-// }

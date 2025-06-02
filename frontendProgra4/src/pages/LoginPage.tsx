@@ -21,7 +21,7 @@ const Login = () => {
         showErrorAlertLogin("Incorrect credentials.");
       }
     },
-  });
+  })
 
   return (
     <div className="login-container">
@@ -89,7 +89,7 @@ const Login = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
 export default Login;

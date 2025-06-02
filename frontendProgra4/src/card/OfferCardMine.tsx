@@ -20,7 +20,7 @@ const OfferCardMine = ({ offer, onCancel, isLoading }: OfferProps) => {
       </p>
 
       <div className="skills-container">
-        <strong>Skills Required:</strong>
+        <strong>Skills:</strong>
         <div style={{ marginTop: "0.5rem" }}>
           {offer.offerSkills?.map((skill) => (
             <span key={skill.skill.id} className="skill-pill">
