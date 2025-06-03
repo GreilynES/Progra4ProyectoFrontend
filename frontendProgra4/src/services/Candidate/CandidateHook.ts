@@ -146,37 +146,37 @@ export const useProfileLogic = () => {
   const removeCandidateOffer = useRemoveCandidateOffer(candidate?.id);
 
   const smartToggleSkill = async (skillId: number) => {
-  const currentlyHasSkill = hasSkill(skillId)
+      const currentlyHasSkill = hasSkill(skillId)
 
-  if (currentlyHasSkill) {
-    const offersToLose = myApplications.filter((offer) => {
-      const requiredSkillIds = offer.offerSkills?.map((s) => s.skillId) || [];
-      const requiredSkill = requiredSkillIds.includes(skillId);
-      const stillHasOthers = requiredSkillIds.some(
-        (id) => id !== skillId && hasSkill(id)
-      )
+      if (currentlyHasSkill) {
+        const offersToLose = myApplications.filter((offer) => {
+          const requiredSkillIds = offer.offerSkills?.map((s) => s.skillId) || [];
+          const requiredSkill = requiredSkillIds.includes(skillId);
+          const stillHasOthers = requiredSkillIds.some(
+            (id) => id !== skillId && hasSkill(id)
+          )
 
-      return requiredSkill && !stillHasOthers;
-    })
-    // Si hay offers con esa skill muestra alerta
-    if (offersToLose.length > 0) {
-      const offerNames = offersToLose.map((o) => "${o.name}").join(", ");
-      const result = await showWarningAlert(
-      `If you delete this skill, you will lose your application${offersToLose.length > 1 ? "s" : ""} to ${offerNames}. Are you sure?`
-      )
-
-      if (result.isConfirmed) {
-        toggleSkill(skillId);
-
-        offersToLose.forEach((offer) => {
-          removeCandidateOffer.mutate({ offerId: offer.id });
+          return requiredSkill && !stillHasOthers;
         })
+        // Si hay offers con esa skill muestra alerta
+        if (offersToLose.length > 0) {
+          const offerNames = offersToLose.map((o) => o.name).join(", ");
+          const result = await showWarningAlert(
+          `If you delete this skill, you will lose your application${offersToLose.length > 1 ? "s" : ""} to ${offerNames}. Are you sure?`
+          )
+
+          if (result.isConfirmed) {
+            toggleSkill(skillId);
+
+            offersToLose.forEach((offer) => {
+              removeCandidateOffer.mutate({ offerId: offer.id });
+            })
+          }
+          return;
+        }
       }
-      return;
-    }
+      toggleSkill(skillId);
   }
-  toggleSkill(skillId);
-}
   return {
     candidate,
     isLoading,
