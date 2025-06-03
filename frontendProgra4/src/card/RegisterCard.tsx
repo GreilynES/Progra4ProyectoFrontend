@@ -54,7 +54,10 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
       {(field:any) => (
         <div className="register-field">
           <label htmlFor="phoneNumber" className="register-label">Phone Number *</label>
-          <PhoneInput country="cr" value={field.state.value?.toString() || ''}
+          <PhoneInput 
+          country="cr" 
+          onlyCountries={['cr']}
+          value={field.state.value?.toString() || ''}
             onChange={(value) => {
               field.handleChange(value);
               setFormErrors((prev: any) => ({ ...prev, phoneNumber: '' }));
