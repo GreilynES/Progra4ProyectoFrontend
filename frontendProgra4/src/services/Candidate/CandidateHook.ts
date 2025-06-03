@@ -176,7 +176,7 @@ export const useProfileLogic = () => {
         }
       }
       toggleSkill(skillId);
-  }
+}
   return {
     candidate,
     isLoading,

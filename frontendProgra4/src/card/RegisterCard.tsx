@@ -8,7 +8,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="name">
       {(field: any) => (
         <div className="register-field">
-          <label htmlFor="name" className="register-label">First Name</label>
+          <label htmlFor="name" className="register-label">First Name *</label>
           <div className="input-icon-wrapper">
             <UserRound className="input-icon" />
             <input className="register-input" id="name" placeholder="Enter your name"
@@ -23,7 +23,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="firstLastName">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="firstLastName" className="register-label">Last Name</label>
+          <label htmlFor="firstLastName" className="register-label">Last Name *</label>
           <div className="input-icon-wrapper">
             <UserRound className="input-icon" />
             <input className="register-input" id="firstLastName" placeholder="Enter your last name"
@@ -38,7 +38,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="secondLastName">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="secondLastName" className="register-label">Second Last Name</label>
+          <label htmlFor="secondLastName" className="register-label">Second Last Name *</label>
           <div className="input-icon-wrapper">
             <UserRound className="input-icon" />
             <input className="register-input" id="secondLastName" placeholder="Enter your second last name"
@@ -53,7 +53,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="phoneNumber">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="phoneNumber" className="register-label">Phone Number</label>
+          <label htmlFor="phoneNumber" className="register-label">Phone Number *</label>
           <PhoneInput country="cr" value={field.state.value?.toString() || ''}
             onChange={(value) => {
               field.handleChange(value);
@@ -68,7 +68,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="email">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="email" className="register-label">Email</label>
+          <label htmlFor="email" className="register-label">Email *</label>
           <div className="input-icon-wrapper">
             <Mail className="input-icon" />
             <input className="register-input" id="email" type="email" placeholder="Enter your email"
@@ -83,7 +83,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="password">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="password" className="register-label">Password</label>
+          <label htmlFor="password" className="register-label">Password *</label>
           <div className="input-icon-wrapper">
             <Lock className="input-icon" />
             <input className="register-input" id="password" type="password" placeholder="Create a password"
@@ -98,7 +98,7 @@ const RegisterCard = ({ form, formErrors, setFormErrors }: any) => (
     <form.Field name="confirmPassword">
       {(field:any) => (
         <div className="register-field">
-          <label htmlFor="confirmPassword" className="register-label">Confirm Password</label>
+          <label htmlFor="confirmPassword" className="register-label">Confirm Password *</label>
           <div className="input-icon-wrapper">
             <Lock className="input-icon" />
             <input className="register-input" id="confirmPassword" type="password" placeholder="Confirm your password"
