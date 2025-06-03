@@ -10,7 +10,7 @@ export const RegisterSchema = z
     confirmPassword: z.string().min(6, "Must be at least 6 characters long"),
     phoneNumber: z
       .string()
-      .min(8, "Must be at least 8 digits")
+      .min(11, "Must be at least 8 digits")
       .regex(/^[0-9]+$/, "Only numbers are allowed"),
     role: z.string().optional(),
     id: z.number().optional(),
